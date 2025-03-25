@@ -16,9 +16,8 @@ const Chat = () => {
           `/messages?datetime=${lastDateTimeOfMessage}` : '/messages';
 
         const response = await axiosApi.get(fetchUrl);
-        const posts: Messages[] = response.data;
+        const posts: Messages[] = response.data.reverse();
           if (posts.length > 0) {
-            posts.reverse();
             setLastDateTimeOfMessage(posts[posts.length - 1].datetime);
             setUserMessages(prevState => {
               const newMessages = posts.filter(message => {
@@ -41,6 +40,8 @@ const Chat = () => {
 
   }, [lastDateTimeOfMessage]);
 
+  console.log(userMessages);
+
   return (
     <Container>
       <UserForm/>
@@ -49,7 +50,7 @@ const Chat = () => {
           <UserMessages userMessages={userMessages}/>
         </>
         :
-        <p className="w-75 mx-auto">No Messages</p>
+        <p style={{textAlign: 'center', margin: '30px'}}>No Messages</p>
       }
     </Container>
   );

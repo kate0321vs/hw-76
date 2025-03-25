@@ -6,7 +6,6 @@ interface Props {
   userMessages: Messages[];
 }
 
-console.log('messages render')
 const UserMessages: React.FC<Props> = ({userMessages}) => {
   return (
     <>
