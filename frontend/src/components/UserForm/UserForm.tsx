@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axiosApi from "../../../axiosApi.ts";
 import {Data} from "../../types";
+import {Button, Container, TextField, Typography} from "@mui/material";
 
 const initialForm = {
     message: "",
@@ -18,30 +19,47 @@ const UserForm = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (form.author.trim().length === 0 || form.message.trim().length === 0) {
+        alert("Fields 'message' and 'author' are required");
+        return;
+    }
     await axiosApi.post<Data>('/messages', {author: form.author, message: form.message,});
     setForm(initialForm);
   };
 
   return (
-    <form className="w-75 mx-auto my-4" onSubmit={onSubmit}>
-      <label htmlFor="author">Your Name</label>
-      <input name="author"
-             value={form.author}
-             onChange={inputChangeHandler}
-             className="form-control mb-3"
-             type="text"
-             id="author"
-             required/>
-      <label htmlFor="message">Your Message</label>
-      <textarea name="message"
-                value={form.message}
-                onChange={inputChangeHandler}
-                className="form-control mb-3"
-                id="message"
-                required></textarea>
-      <button type="submit" className="btn btn-primary">Send</button>
-    </form>
+      <Container maxWidth="sm">
+          <Typography variant='h5' textAlign='center' my={3}>Chat</Typography>
+          <form onSubmit={onSubmit}>
+              <TextField
+                  sx={{mb: 3}}
+                  label="Your Name"
+                  name="author"
+                  value={form.author}
+                  onChange={inputChangeHandler}
+                  fullWidth
+                  variant="outlined"
+                  required
+              />
+              <TextField
+                  sx={{mb: 3}}
+                  label="Your Message"
+                  name="message"
+                  value={form.message}
+                  onChange={inputChangeHandler}
+                  fullWidth
+                  variant="outlined"
+                  required
+                  multiline
+                  rows={4}
+              />
+              <Button type="submit" variant="contained" color="primary" fullWidth>
+                  Send
+              </Button>
+          </form>
+      </Container>
   );
 };
+
 
 export default UserForm;

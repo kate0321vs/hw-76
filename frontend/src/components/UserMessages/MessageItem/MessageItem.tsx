@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import {Card, CardContent, CardHeader, Divider, Typography} from "@mui/material";
 
 interface Props {
   author: string;
@@ -8,15 +9,21 @@ interface Props {
 
 const MessageItem: React.FC<Props> = ({author, message, datetime}) => {
   return (
-    <div className="card w-75 mx-auto mb-3">
-      <div className="card-header">
-        {author}
-      </div>
-      <div className="card-body">
-        <p>{message}</p>
-        <footer className="blockquote-footer mb-0 mt-3">{dayjs(datetime).format('YYYY-MM-DD at HH:mm')}</footer>
-      </div>
-    </div>
+      <Card sx={{ width: '55%', margin: '30px auto' }}>
+          <CardHeader
+              title={author}
+              sx={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}
+          />
+          <CardContent>
+              <Typography variant="body1" gutterBottom>
+                  {message}
+              </Typography>
+              <Divider sx={{ margin: '8px 0' }} />
+              <Typography variant="caption" color="textSecondary">
+                  {dayjs(datetime).format('YYYY-MM-DD HH:mm')}
+              </Typography>
+          </CardContent>
+      </Card>
   );
 };
 

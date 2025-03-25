@@ -3,6 +3,7 @@ import {Messages} from "../../types";
 import UserForm from "../../components/UserForm/UserForm.tsx";
 import UserMessages from "../../components/UserMessages/UserMessages.tsx";
 import axiosApi from "../../../axiosApi.ts";
+import {Container} from "@mui/material";
 
 const Chat = () => {
   const [userMessages, setUserMessages] = useState<Messages[]>([]);
@@ -16,7 +17,6 @@ const Chat = () => {
 
         const response = await axiosApi.get(fetchUrl);
         const posts: Messages[] = response.data;
-
           if (posts.length > 0) {
             posts.reverse();
             setLastDateTimeOfMessage(posts[posts.length - 1].datetime);
@@ -42,7 +42,7 @@ const Chat = () => {
   }, [lastDateTimeOfMessage]);
 
   return (
-    <div>
+    <Container>
       <UserForm/>
       {userMessages.length > 0 ?
         <>
@@ -51,7 +51,7 @@ const Chat = () => {
         :
         <p className="w-75 mx-auto">No Messages</p>
       }
-    </div>
+    </Container>
   );
 };
 
